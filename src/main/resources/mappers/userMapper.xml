@@ -10,7 +10,7 @@
             is_with_draw,
             status
         FROM user
-        WHERE user_d=#{id}
+        WHERE user_id=#{id}
     </select>
 
     <insert id="insertUserProfile" parameterType="com.fastcaompus.boardserver.dto.UserDTO">
@@ -42,7 +42,21 @@
             is_with_draw,
             status
         FROM user
-        WHERE user_id = #{id}
+        WHERE id = #{id}
+        AND password=#{password}
+        AND status!="DELETE"
+    </select>
+
+    <select id="findByUserIdAndPassword" resultType="com.fastcaompus.boardserver.dto.UserDTO">
+        SELECT id,
+        user_id,
+        password,
+        nick_name,
+        create_time,
+        is_with_draw,
+        status
+        FROM user
+        WHERE user_id = #{userId}
         AND password=#{password}
         AND status!="DELETE"
     </select>

@@ -1,5 +1,6 @@
 package com.fastcaompus.boardserver.controller;
 
+import com.fastcaompus.boardserver.aop.LoginCheck;
 import com.fastcaompus.boardserver.dto.UserDTO;
 import com.fastcaompus.boardserver.dto.request.UserDeleteIdRequest;
 import com.fastcaompus.boardserver.dto.request.UserLoginRequest;
@@ -75,9 +76,15 @@ public class UserController {
     }
 
     @PatchMapping("/password")
-    public ResponseEntity<LoginResponse> updateUserPassword(@RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest, HttpSession session){
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<LoginResponse> updateUserPassword(
+            String accountId,
+            @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest,
+            HttpSession session
+    ){
         ResponseEntity<LoginResponse> responseEntity = null;
-        String id = SessionUtil.getLoginMemberId(session);
+        String id = accountId;
+        log.info("{}",accountId);
         String beforePassword = userUpdatePasswordRequest.getBeforePassword();
         String afterPassword = userUpdatePasswordRequest.getAfterPassword();
 

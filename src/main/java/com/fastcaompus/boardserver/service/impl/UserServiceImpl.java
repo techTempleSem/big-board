@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO login(String id, String password) {
         String cryptoPassword = encryptSHA256(password);
-        UserDTO memberInfo = userProfilMapper.findByIdAndPassword(id, cryptoPassword);
+        UserDTO memberInfo = userProfilMapper.findByUserIdAndPassword(id, cryptoPassword);
         return memberInfo;
     }
 
@@ -52,7 +52,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserInfo(String userId) {
-        return null;
+        UserDTO userDTO = userProfilMapper.getUserProfile(userId);
+        return userDTO;
     }
 
     @Override
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserService {
         String cryptoPassword = encryptSHA256(beforePassword);
         log.info(id);
         log.info(cryptoPassword);
-        UserDTO memberInfo = userProfilMapper.findByIdAndPassword(id, cryptoPassword);
+        UserDTO memberInfo = userProfilMapper.findByUserIdAndPassword(id, cryptoPassword);
 
         if(memberInfo != null){
             memberInfo.setPassword(encryptSHA256(afterPassword));
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteId(String id, String password) {
         String cryptoPassword = encryptSHA256(password);
-        UserDTO memberInfo = userProfilMapper.findByIdAndPassword(id, cryptoPassword);
+        UserDTO memberInfo = userProfilMapper.findByUserIdAndPassword(id, cryptoPassword);
 
         if(memberInfo != null){
             int deleteCount = userProfilMapper.deleteUserProfile(id);
