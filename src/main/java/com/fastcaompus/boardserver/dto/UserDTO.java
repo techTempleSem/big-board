@@ -15,7 +15,7 @@ public class UserDTO {
     }
 
     public enum Status{
-        DEFAULT, ADMIN, DELETED
+        USER, ADMIN, DELETED
     }
     private int id;
     private String userId;
